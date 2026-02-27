@@ -1,8 +1,10 @@
-# Raynet Cloud RADIUS
+# Raynet
 
 Cloud-hosted RADIUS + billing platform for ISP operators. ISPs sign up, connect their MikroTik routers, manage subscribers, handle billing — all from one dashboard.
 
 Built this to replace legacy ISP management tools (like XceedNet) that require on-premise servers and manual setup.
+
+**Live:** [raynet.in](https://raynet.in)
 
 ## What it does
 
@@ -15,6 +17,7 @@ Built this to replace legacy ISP management tools (like XceedNet) that require o
 - **Voucher system** — prepaid voucher batches with QR codes
 - **Reports** — revenue, usage, sessions, churn, collections
 - **Background jobs** — billing cron, notifications (SMS/email/WhatsApp) via BullMQ
+- **Landing page** — public marketing page with architectural grid design
 
 ## Tech stack
 
@@ -30,8 +33,8 @@ Built this to replace legacy ISP management tools (like XceedNet) that require o
 
 ```bash
 # clone and install
-git clone https://github.com/VanshDevChoudhary/Raynet-Cloud-Radius.git
-cd Raynet-Cloud-Radius
+git clone https://github.com/VanshDevChoudhary/Raynet.git
+cd Raynet
 pnpm install
 
 # set up env
@@ -63,6 +66,7 @@ src/
   services/      # Business logic layer
   lib/           # Utilities, auth, RADIUS client, validations
   components/    # Shared UI components
+  hooks/         # Custom React hooks
   jobs/          # BullMQ workers (billing, notifications)
 prisma/          # Schema and migrations
 deploy/          # Nginx, Docker, PM2 configs
@@ -71,11 +75,10 @@ radius/          # FreeRADIUS configuration
 
 ## Deployment
 
-Currently deployed on Oracle Cloud (ARM). See `deploy/` for:
+Currently deployed on Oracle Cloud (ARM) at [raynet.in](https://raynet.in). See `deploy/` for:
 - `docker-compose.prod.yml` — PostgreSQL + Redis containers
 - `ecosystem.config.cjs` — PM2 process config
-- `deploy/nginx/cloudradius` — Nginx reverse proxy config
-- `.github/workflows/deploy.yml` — GitHub Actions auto-deploy
+- Nginx reverse proxy config
 
 ## Known issues
 
