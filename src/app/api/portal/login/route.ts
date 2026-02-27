@@ -152,7 +152,7 @@ export async function POST(request: Request) {
     const cookieStore = await cookies();
     cookieStore.set("portal-token", token, {
       httpOnly: true,
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       maxAge: 24 * 60 * 60, // 24 hours
       path: "/",

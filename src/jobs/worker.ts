@@ -18,7 +18,7 @@ import "./workers/notification.worker";
 import { setupBillingCron } from "./queue";
 
 async function main() {
-  console.log("Starting CloudRadius background workers...");
+  console.log("Starting Raynet background workers...");
   console.log(`   NODE_ENV: ${process.env.NODE_ENV || "development"}`);
   console.log(`   REDIS_URL: ${process.env.REDIS_URL || "redis://localhost:6379"}`);
 

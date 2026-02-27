@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,6 +9,8 @@ import { toast } from "sonner";
 
 export function PortalLoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const tenantSlug = searchParams.get("tenant") ?? "";
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -19,13 +21,17 @@ export function PortalLoginForm() {
       toast.error("Please enter username and password");
       return;
     }
+    if (!tenantSlug) {
+      toast.error("Invalid portal link. Please contact your ISP.");
+      return;
+    }
 
     setLoading(true);
     try {
       const res = await fetch("/api/portal/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, password, tenantSlug }),
       });
 
       const data = await res.json();

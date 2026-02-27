@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/dialog";
 import { Plus } from "lucide-react";
 import { toast } from "sonner";
+import { useTicketEvents } from "@/hooks/use-ticket-events";
 
 interface PortalTicket {
   id: string;
@@ -57,6 +58,9 @@ export function PortalComplaintsClient({
 }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
+
+  // Real-time updates via SSE
+  useTicketEvents("/api/portal/tickets/events");
   const [loading, setLoading] = useState(false);
   const [subject, setSubject] = useState("");
   const [description, setDescription] = useState("");

@@ -11,8 +11,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "CloudRadius",
-    template: "%s | CloudRadius",
+    default: "Raynet",
+    template: "%s | Raynet",
   },
   description: "ISP Billing & Bandwidth Management SaaS Platform",
 };
@@ -27,8 +27,8 @@ export default function RootLayout({
       <body className={`${inter.variable} font-sans antialiased`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="light"
+          enableSystem={false}
           disableTransitionOnChange
         >
           {children}

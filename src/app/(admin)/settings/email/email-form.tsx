@@ -42,7 +42,7 @@ export function EmailConfigForm({ config }: EmailConfigFormProps) {
   const [testingConnection, setTestingConnection] = useState(false);
   const [showTestDialog, setShowTestDialog] = useState(false);
   const [testEmail, setTestEmail] = useState("");
-  const [testSubject, setTestSubject] = useState("Test Email from CloudRadius");
+  const [testSubject, setTestSubject] = useState("Test Email from Raynet");
   const [testBody, setTestBody] = useState("This is a test email to verify your SMTP configuration.");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

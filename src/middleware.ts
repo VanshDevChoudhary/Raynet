@@ -10,13 +10,14 @@ export default auth((req) => {
   // Public paths that don't require authentication
   const publicPaths = ["/login", "/register", "/forgot-password"];
   const isPublicPath = publicPaths.some((path) => pathname.startsWith(path));
+  const isLandingPage = pathname === "/";
   const isApiAuth = pathname.startsWith("/api/auth");
   const isStaticAsset = pathname.startsWith("/_next") || pathname.startsWith("/favicon");
   const isPortalPath = pathname.startsWith("/portal") || pathname.startsWith("/api/portal");
   const isHotspotPath = pathname.startsWith("/hotspot") || pathname.startsWith("/api/hotspot");
 
-  // Allow static assets, auth API, portal, and hotspot paths
-  if (isStaticAsset || isApiAuth || isPortalPath || isHotspotPath) {
+  // Allow landing page, static assets, auth API, portal, and hotspot paths
+  if (isLandingPage || isStaticAsset || isApiAuth || isPortalPath || isHotspotPath) {
     return NextResponse.next();
   }
 

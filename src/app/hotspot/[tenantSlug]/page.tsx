@@ -76,7 +76,7 @@ export default async function HotspotLoginPage({
 
           {/* Footer */}
           <div className="mt-6 text-center text-xs text-gray-400">
-            Powered by CloudRadius
+            Powered by Raynet
           </div>
         </div>
       </div>

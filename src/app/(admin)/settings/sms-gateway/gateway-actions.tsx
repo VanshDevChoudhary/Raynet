@@ -48,7 +48,7 @@ export function SmsGatewayActions({ gateway }: SmsGatewayActionsProps) {
   const [showTestDialog, setShowTestDialog] = useState(false);
   const [loading, setLoading] = useState(false);
   const [testPhone, setTestPhone] = useState("");
-  const [testMessage, setTestMessage] = useState("This is a test message from CloudRadius.");
+  const [testMessage, setTestMessage] = useState("This is a test message from Raynet.");
 
   const handleToggleStatus = async () => {
     setLoading(true);

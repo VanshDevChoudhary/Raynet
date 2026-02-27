@@ -27,6 +27,7 @@ import { format } from "date-fns";
 import Link from "next/link";
 import { TicketForm } from "./ticket-form";
 import { deleteTicket, updateTicket } from "./actions";
+import { useTicketEvents } from "@/hooks/use-ticket-events";
 
 interface Ticket {
   id: string;
@@ -69,6 +70,9 @@ export function TicketTable({ tickets, staff, subscribers, meta }: TicketTablePr
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [priorityFilter, setPriorityFilter] = useState("all");
+
+  // Real-time updates via SSE
+  useTicketEvents("/api/complaints/events");
 
   const filtered = tickets.filter((t) => {
     if (statusFilter !== "all" && t.status !== statusFilter) return false;

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getPortalSession } from "@/lib/portal-session";
 import { portalService } from "@/services/portal.service";
+import { ticketEmitter, type TicketEvent } from "@/lib/ticket-events";
 
 export async function POST(request: Request) {
   try {
@@ -28,6 +29,22 @@ export async function POST(request: Request) {
       description: description?.trim() ?? "",
       category: category || "OTHER",
     });
+
+    // Emit real-time event for admin dashboard
+    ticketEmitter.emit("ticket", {
+      type: "TICKET_CREATED",
+      tenantId: session.tenantId,
+      ticket: {
+        id: ticket.id,
+        ticketNumber: ticket.ticketNumber,
+        subject: ticket.subject,
+        category: ticket.category,
+        priority: ticket.priority,
+        status: ticket.status,
+        subscriberName: session.name,
+        createdAt: ticket.createdAt.toISOString(),
+      },
+    } satisfies TicketEvent);
 
     return NextResponse.json({ success: true, ticketNumber: ticket.ticketNumber });
   } catch (error) {

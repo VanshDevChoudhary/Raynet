@@ -5,6 +5,7 @@ import { requireAuthorized } from "@/lib/session";
 import { createTicketSchema, updateTicketSchema, addCommentSchema } from "@/lib/validations/ticket.schema";
 import { ticketService } from "@/services/ticket.service";
 import { safeErrorMessage, type ActionResponse } from "@/lib/types";
+import { ticketEmitter, type TicketEvent } from "@/lib/ticket-events";
 
 export async function createTicket(formData: unknown): Promise<ActionResponse> {
   try {
@@ -14,6 +15,22 @@ export async function createTicket(formData: unknown): Promise<ActionResponse> {
       return { success: false, error: validated.error.errors[0]?.message ?? "Invalid input" };
     }
     const ticket = await ticketService.create(tenantId, validated.data);
+
+    ticketEmitter.emit("ticket", {
+      type: "TICKET_CREATED",
+      tenantId,
+      ticket: {
+        id: ticket.id,
+        ticketNumber: ticket.ticketNumber,
+        subject: ticket.subject,
+        category: ticket.category,
+        priority: ticket.priority,
+        status: ticket.status,
+        subscriberName: ticket.subscriber?.name,
+        createdAt: ticket.createdAt.toISOString(),
+      },
+    } satisfies TicketEvent);
+
     revalidatePath("/complaints");
     return { success: true, data: ticket };
   } catch (error) {
@@ -29,6 +46,21 @@ export async function updateTicket(ticketId: string, formData: unknown): Promise
       return { success: false, error: validated.error.errors[0]?.message ?? "Invalid input" };
     }
     const ticket = await ticketService.update(tenantId, ticketId, validated.data);
+
+    ticketEmitter.emit("ticket", {
+      type: "TICKET_UPDATED",
+      tenantId,
+      ticket: {
+        id: ticket.id,
+        ticketNumber: ticket.ticketNumber,
+        subject: ticket.subject,
+        category: ticket.category,
+        priority: ticket.priority,
+        status: ticket.status,
+        createdAt: ticket.createdAt.toISOString(),
+      },
+    } satisfies TicketEvent);
+
     revalidatePath("/complaints");
     revalidatePath(`/complaints/${ticketId}`);
     return { success: true, data: ticket };
@@ -56,6 +88,21 @@ export async function deleteTicket(ticketId: string): Promise<ActionResponse> {
   try {
     const { tenantId } = await requireAuthorized("complaints", "delete");
     await ticketService.delete(tenantId, ticketId);
+
+    ticketEmitter.emit("ticket", {
+      type: "TICKET_DELETED",
+      tenantId,
+      ticket: {
+        id: ticketId,
+        ticketNumber: "",
+        subject: "",
+        category: "",
+        priority: "",
+        status: "",
+        createdAt: new Date().toISOString(),
+      },
+    } satisfies TicketEvent);
+
     revalidatePath("/complaints");
     return { success: true };
   } catch (error) {

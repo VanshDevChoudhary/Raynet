@@ -29,7 +29,7 @@ export default async function PrintVouchersPage({
     <PrintableCards
       batch={serialize(data.batch)}
       vouchers={serialize(data.vouchers)}
-      tenantName={tenant?.name || "CloudRadius"}
+      tenantName={tenant?.name || "Raynet"}
     />
   );
 }

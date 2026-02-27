@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { PortalLoginForm } from "./login-form";
 
 export const metadata = { title: "Login" };
@@ -14,7 +15,9 @@ export default function PortalLoginPage() {
             Login to manage your subscription
           </p>
         </div>
-        <PortalLoginForm />
+        <Suspense>
+          <PortalLoginForm />
+        </Suspense>
       </div>
     </div>
   );

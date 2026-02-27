@@ -1,4 +1,4 @@
-export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "CloudRadius";
+export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "Raynet";
 export const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
 export const TENANT_HEADER = "x-tenant-id";
